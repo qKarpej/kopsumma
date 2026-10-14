@@ -1,0 +1,36 @@
+# Vide un noslēpumi
+.env
+*.env
+!.env.example
+secrets/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+*.sqlite3
+*.db
+
+# Augšupielādes
+backend/uploads/
+
+# Flutter / Dart
+mobile/.dart_tool/
+mobile/build/
+mobile/.flutter-plugins
+mobile/.flutter-plugins-dependencies
+mobile/.packages
+mobile/pubspec.lock
+mobile/ios/Pods/
+mobile/android/.gradle/
+mobile/android/local.properties
+
+# IDE / OS
+.idea/
+.vscode/
+.DS_Store
