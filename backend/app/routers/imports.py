@@ -1,17 +1,20 @@
-"""API-05: izraksta augšupielāde un pārbaude. Nekas netiek saglabāts kā darījums (L-3)."""
+"""API-05 izraksta pārbaude (nekas netiek saglabāts) un API-06 apstiprināšana (L-3)."""
 
 import json
+import uuid
+from datetime import UTC, date, datetime
 from pathlib import Path
 
-from fastapi import APIRouter, Depends, File, Form, UploadFile
+from fastapi import APIRouter, Depends, File, Form, Header, UploadFile
 from sqlalchemy import select
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
 from app.config import get_settings
 from app.db import get_db
 from app.errors import ApiError
 from app.importers import mintos
-from app.models import Darijums, ImportaSesija, ImportStatus, Lietotajs, Platforma
+from app.models import Darijums, ImportaSesija, ImportStatus, Lietotajs, Platforma, TxStatus, TxType
 from app.security import current_user
 
 router = APIRouter(prefix="/api/v1/imports", tags=["imports"])
@@ -82,3 +85,52 @@ async def upload(
         "ienakumi_centos": sum(t.summa_centos for t in new if t.summa_centos > 0
                                and t.veids.value in ("procenti", "kapitala_pieaugums")),
     }
+
+
+@router.post("/{import_id}/confirm")
+def confirm(
+    import_id: uuid.UUID,
+    idempotency_key: str = Header(..., alias="Idempotency-Key", min_length=8, max_length=64),
+    user: Lietotajs = Depends(current_user),
+    db: Session = Depends(get_db),
+):
+    """API-06: saglabā pārbaudītos darījumus vienā transakcijā (L-3, NFR-11)."""
+    session = db.get(ImportaSesija, import_id)
+    if session is None or session.lietotaja_id != user.id:
+        raise ApiError(404, "IMPORT_NOT_FOUND", "Imports nav atrasts.")
+    if session.statuss is ImportStatus.apstiprinats:
+        if session.idempotences_atslega == idempotency_key:
+            return {"importa_id": str(session.id), "saglabati": session.jauni,
+                    "dublikati": session.dublikati}
+        raise ApiError(409, "IMPORT_ALREADY_CONFIRMED", "Šis imports jau ir saglabāts.")
+    if session.statuss is not ImportStatus.parbaude:
+        raise ApiError(409, "IMPORT_NOT_CONFIRMABLE", "Šo importu vairs nevar saglabāt.")
+
+    path = Path(get_settings().upload_dir, f"{session.id}.json")
+    if not path.exists():
+        raise ApiError(409, "IMPORT_EXPIRED",
+                       "Pārbaudes dati vairs nav pieejami. Augšupielādējiet failu vēlreiz.")
+    rows = json.loads(path.read_text())
+
+    for r in rows:
+        db.add(Darijums(
+            lietotaja_id=user.id,
+            platformas_id=session.platformas_id,
+            importa_id=session.id,
+            arejais_id=r["arejais_id"],
+            darijuma_datums=date.fromisoformat(r["darijuma_datums"]),
+            veids=TxType(r["veids"]),
+            summa_centos=r["summa_centos"],
+            valuta=r["valuta"],
+            statuss=TxStatus.apstiprinats if r["valuta"] == "EUR" else TxStatus.japarbauda,
+        ))
+    session.statuss = ImportStatus.apstiprinats
+    session.apstiprinats = datetime.now(UTC)
+    session.idempotences_atslega = idempotency_key
+    try:
+        db.commit()
+    except IntegrityError as exc:
+        db.rollback()
+        raise ApiError(409, "IMPORT_CONFLICT", "Daļa darījumu jau ir saglabāta citā importā.") from exc
+    path.unlink(missing_ok=True)
+    return {"importa_id": str(session.id), "saglabati": len(rows), "dublikati": session.dublikati}
