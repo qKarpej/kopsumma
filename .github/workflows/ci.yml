@@ -26,6 +26,7 @@ jobs:
       - name: Testi (pytest)
         run: pytest -q
       - name: Migrācija tukšā datubāzē
+        if: hashFiles('backend/alembic.ini') != ''
         run: DATABASE_URL=sqlite:///./ci.db alembic upgrade head
 
   mobile:
