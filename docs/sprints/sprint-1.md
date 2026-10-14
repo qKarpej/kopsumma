@@ -1,29 +1,25 @@
-# Sprints 1 · 05.10.–12.10.2026
+# Sprints 1 · plāns
 
-**Mērķis:** lietotājs var pieteikties lietotnē un importēt Mintos CSV izrakstu, redzot importa
-kopsavilkumu (jauni darījumi, dublikāti, kļūdas rinda) pirms saglabāšanas.
+**Mērķis:** lietotājs var importēt Mintos izrakstu no telefona, apstiprināt to un redzēt portfeļa kopsummu.
 
-**Pieejamais laiks:** 12 h · **Plānots:** 12 h (5 vienības) · **Milestone:** Sprints 1
+**Produkta stāvoklis sprinta sākumā:** pieteikšanās (S-02), API-05 izraksta pārbaude, CI — sk. `sprint-0.md`.
 
-| # | Vienība | Issue | PR | h | Statuss |
-|---|---|---|---|---|---|
-| 1 | Repozitorijs, CI un projektu skeleti | #1 | #7 | 2 | ✅ |
-| 2 | DB shēma un migrācija | #2 | #8 | 2 | ✅ |
-| 3 | Reģistrācija un pieteikšanās API (API-01, API-02) | #3 | #9 | 3 | ✅ |
-| 4 | Pieteikšanās ekrāns S-02 ar kļūdas stāvokli | #4 | #10 | 2 | ✅ |
-| 5 | Mintos CSV parsētājs un API-05 | #5 | #11 | 3 | ✅ |
-| 6 | Importa apstiprināšana API-06 | #6 | — | 3 | ⏭ izmests plānošanā, sprints 2 |
+**Pieejamais laiks:** 12 h · **Plānots:** 11 h
+
+| # | Vienība | Issue | h | Atbildīgais |
+|---|---|---|---|---|
+| 1 | Importa apstiprināšana API-06 | #6 (PR #13) | 1 | Aleksejs Pjavka |
+| 2 | Importa ekrāni S-04–S-07 | #14 | 4 | Aleksejs Pjavka |
+| 3 | Importa kļūdas ekrāns S-09 | #15 | 2 | Aleksejs Pjavka |
+| 4 | Portfeļa API-08 un S-03 ar datiem | #16 | 3 | Aleksejs Pjavka |
+| 5 | Imports pabeigts S-08 | #17 | 1 | Aleksejs Pjavka |
+
+## Komandas biedru uzdevumi
+- **Iļja Molčanovs** — koda apskate: PR #13, trīs komentāri pie konkrētām rindām.
+- **Sebastjans Peive** — procesa pārbaude: atzari, commit ziņojumi, .gitignore un noslēpumi, CI, DoD.
 
 ## Pabeigtības definīcija
-1. Kods atzarā, pull request izveidots.
-2. Testi un linteris izpildās (CI: ruff, pytest, migrācija, flutter analyze, flutter test, gitleaks).
-3. Akcepta kritēriji pārbaudīti (atzīmēti issue).
-4. Apvienots `main` ar merge commit.
+Kods atzarā, PR izveidots · testi un linteris izpildās · akcepta kritēriji pārbaudīti · apvienots `main`.
 
-## Atšķirība no plāna
-Kods un pull request repozitorijā iesniegti 14.10.2026., pēc sprinta beigām — commit datumi to
-rāda. Pirmajā CI palaišanā (#7) migrācijas solis krita, jo alembic vēl nebija pievienots;
-salabots ar nosacījumu workflow failā.
-
-## Izmaiņa nākamajam sprintam
-Commit un push katru darba dienu, nevis sprinta beigās, lai vēsture atspoguļo reālo darba gaitu.
+## Pārskata sapulces rezultāts
+_Aizpilda 7. nodarbībā._
