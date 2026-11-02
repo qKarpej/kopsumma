@@ -44,7 +44,7 @@ jobs:
       - name: Linteris (flutter analyze)
         run: flutter analyze
       - name: Testi (flutter test)
-        run: flutter test
+        run: flutter test --reporter github
 
   secrets:
     runs-on: ubuntu-latest
