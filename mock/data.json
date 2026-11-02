@@ -1,0 +1,32 @@
+{
+  "portfolio": {
+    "valuta": "EUR",
+    "kopsumma_centos": 1938000,
+    "ienakumi_ceturksni_centos": 31845,
+    "platformas": [
+      {"id": 1, "nosaukums": "Mintos", "summa_centos": 1241860, "darijumu_skaits": 96},
+      {"id": 2, "nosaukums": "Twino", "summa_centos": 696140, "darijumu_skaits": 41}
+    ],
+    "nodoklis": {"periods": "2026-Q3", "summa_centos": 31240, "deklaresanas_termins": "2026-10-15"}
+  },
+  "transactions": [
+    {"id": "t1", "datums": "2026-09-30", "platforma": "Mintos", "veids": "procenti", "summa_centos": 412, "valuta": "EUR", "statuss": "apstiprinats", "arejais_id": "MT-88412301"},
+    {"id": "t2", "datums": "2026-09-29", "platforma": "Twino", "veids": "procenti", "summa_centos": 287, "valuta": "EUR", "statuss": "apstiprinats", "arejais_id": "TW-551203"},
+    {"id": "t3", "datums": "2026-09-28", "platforma": "Mintos", "veids": "ieguldijums", "summa_centos": -25000, "valuta": "EUR", "statuss": "apstiprinats", "arejais_id": "MT-88412302"},
+    {"id": "t4", "datums": "2026-09-27", "platforma": "Mintos", "veids": "kapitala_pieaugums", "summa_centos": 1840, "valuta": "EUR", "statuss": "apstiprinats", "arejais_id": "MT-88412303"},
+    {"id": "t5", "datums": "2026-09-25", "platforma": "Twino", "veids": "atmaksa", "summa_centos": 12000, "valuta": "EUR", "statuss": "apstiprinats", "arejais_id": "TW-551204"},
+    {"id": "t6", "datums": "2026-09-24", "platforma": "Twino", "veids": "procenti", "summa_centos": 305, "valuta": "USD", "statuss": "japarbauda", "arejais_id": "TW-551205"},
+    {"id": "t7", "datums": "2026-09-20", "platforma": "Mintos", "veids": "procenti", "summa_centos": 398, "valuta": "EUR", "statuss": "apstiprinats", "arejais_id": "MT-88412304"}
+  ],
+  "tax": {
+    "periods": "2026-Q3",
+    "procenti_centos": 104130,
+    "kapitala_pieaugums_centos": 18380,
+    "apliekams_centos": 122510,
+    "likme_bazes_punktos": 2550,
+    "nodoklis_centos": 31240,
+    "deklaresanas_termins": "2026-10-15",
+    "samaksas_termins": "2026-10-23",
+    "neieklauti": 1
+  }
+}
