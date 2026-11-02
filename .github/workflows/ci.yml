@@ -44,7 +44,9 @@ jobs:
       - name: Linteris (flutter analyze)
         run: flutter analyze
       - name: Testi (flutter test)
-        run: flutter test --reporter github
+        run: |
+          flutter test --reporter json > test-results.json || true
+          python3 ../tool/flutter_failures.py test-results.json
 
   secrets:
     runs-on: ubuntu-latest

@@ -94,7 +94,7 @@ class _TaxScreenState extends State<TaxScreen> {
                             Text('Jādeklarē līdz ${formatDate(t.declareBy)}',
                                 style: const TextStyle(
                                     fontSize: 16, fontWeight: FontWeight.w700, color: AppColors.warn)),
-                            Text('Nodoklis jāsamaksā līdz ${formatDate(t.payBy)}.',
+                            Text('Nodoklis jāsamaksā līdz ${formatDate(t.payBy)}',
                                 style: const TextStyle(fontSize: 14, color: AppColors.warn)),
                           ],
                         ),
