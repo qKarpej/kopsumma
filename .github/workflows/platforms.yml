@@ -1,0 +1,31 @@
+name: Platformu mapes
+
+# Vienreiz izveido Flutter platformu mapes (android, ios, web) atzarā chore/platform-folders,
+# jo izstrādes vidē, kurā rakstīts kods, nav Flutter SDK.
+on:
+  push:
+    branches: [chore/platform-folders]
+
+permissions:
+  contents: write
+
+jobs:
+  create:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+      - name: flutter create
+        working-directory: mobile
+        run: |
+          flutter create --platforms=android,ios,web --org lv.kopsumma --project-name kopsumma .
+          rm -f test/widget_test.dart README.md
+      - name: Iesniegt, ja ir izmaiņas
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git restore --source=HEAD -- mobile/lib mobile/test mobile/pubspec.yaml mobile/analysis_options.yaml mobile/README.md 2>/dev/null || true
+          git add mobile
+          git diff --cached --quiet || (git commit -m "chore(mobile): Flutter platformu mapes (flutter create)" && git push)
