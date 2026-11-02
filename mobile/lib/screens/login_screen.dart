@@ -1,23 +1,20 @@
 import 'package:flutter/material.dart';
 
 import '../api/api_client.dart';
-import '../api/token_store.dart';
+import '../routes.dart';
+import '../state/app_scope.dart';
 import '../theme/app_theme.dart';
 
-/// S-02 Pieteikšanās ar kļūdas stāvokli (K2).
+/// S-02 Pieteikšanās ar kļūdas stāvokli.
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key, required this.api, required this.tokens, required this.onLoggedIn});
-
-  final AuthApi api;
-  final TokenStore tokens;
-  final void Function(String accessToken) onLoggedIn;
+  const LoginScreen({super.key});
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final _email = TextEditingController();
+  final _email = TextEditingController(text: 'anna@inbox.lv');
   final _password = TextEditingController();
   String? _error;
   bool _busy = false;
@@ -35,13 +32,11 @@ class _LoginScreenState extends State<LoginScreen> {
       _error = null;
     });
     try {
-      final result = await widget.api.login(_email.text.trim(), _password.text);
-      await widget.tokens.saveRefreshToken(result.refreshToken);
+      await AppScope.apiOf(context).login(_email.text.trim(), _password.text);
       if (!mounted) return;
-      widget.onLoggedIn(result.accessToken);
+      Navigator.of(context).pushNamedAndRemoveUntil(Routes.home, (_) => false);
     } on ApiException catch (e) {
-      if (!mounted) return;
-      setState(() => _error = e.message);
+      if (mounted) setState(() => _error = e.message);
     } finally {
       if (mounted) setState(() => _busy = false);
     }
@@ -59,21 +54,15 @@ class _LoginScreenState extends State<LoginScreen> {
             Text('Ievadiet e-pastu un paroli, ko izmantojāt reģistrējoties.', style: text.bodyMedium),
             const SizedBox(height: 24),
             const _Label('E-pasts'),
-            TextField(
-              key: const Key('email'),
-              controller: _email,
-              keyboardType: TextInputType.emailAddress,
-              autofillHints: const [AutofillHints.email],
-            ),
+            TextField(key: const Key('email'), controller: _email, keyboardType: TextInputType.emailAddress),
             const SizedBox(height: 12),
             const _Label('Parole'),
             TextField(
               key: const Key('password'),
               controller: _password,
               obscureText: true,
-              autofillHints: const [AutofillHints.password],
-              decoration: InputDecoration(errorText: null, error: _error == null ? null : _ErrorText(_error!)),
               onSubmitted: (_) => _submit(),
+              decoration: InputDecoration(error: _error == null ? null : _ErrorText(_error!)),
             ),
             const SizedBox(height: 24),
             FilledButton(

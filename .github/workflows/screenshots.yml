@@ -1,0 +1,37 @@
+name: Ekrānuzņēmumi
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main, feat/mobile-vertical-slice]
+    paths: ["mobile/**"]
+
+permissions:
+  contents: write
+
+jobs:
+  screenshots:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: mobile
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+      - run: flutter pub get
+      - run: flutter test test_screenshots --update-goldens
+      - name: Publicēt atzarā screenshots
+        working-directory: ${{ github.workspace }}
+        run: |
+          mkdir -p /tmp/shots && cp mobile/test_screenshots/png/*.png /tmp/shots/
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout --orphan screenshots-tmp
+          git rm -rfq . && git clean -fdq
+          cp /tmp/shots/*.png .
+          git add *.png
+          git commit -qm "Ekrānuzņēmumi no ${GITHUB_SHA::7}"
+          git push -f origin HEAD:screenshots
