@@ -14,9 +14,8 @@
 | 4 | Portfeļa API-08 un S-03 ar datiem | #16 | 3 | Aleksejs Pjavka |
 | 5 | Imports pabeigts S-08 | #17 | 1 | Aleksejs Pjavka |
 
-## Komandas biedru uzdevumi
-- **Iļja Molčanovs** — koda apskate: PR #13, trīs komentāri pie konkrētām rindām.
-- **Sebastjans Peive** — procesa pārbaude: atzari, commit ziņojumi, .gitignore un noslēpumi, CI, DoD.
+## Darba veids
+Individuāls projekts: izstrādi, koda pašapskati un procesa pārbaudi veic Aleksejs Pjavka.
 
 ## Pabeigtības definīcija
 Kods atzarā, PR izveidots · testi un linteris izpildās · akcepta kritēriji pārbaudīti · apvienots `main`.
@@ -38,8 +37,8 @@ K5 mērķis aizstāja daļu no sākotnējā plāna: viens scenārijs no ekrāna 
 **Kas nav izdarīts un kāpēc:** importa ekrāni — prioritāte tika dota pilnai šķēlei ar datiem, nevis vairākiem ekrāniem bez datiem.
 Turklāt izraksta importēšana telefonā ir neērta (fails jālejupielādē no platformas), tāpēc importa kanāls tiks pārskatīts.
 
-**Godīgi par vēsturi:** sprinta izstrādes komiti ir veikti 02.11.; nedēļas starppunktos komitu nav. Vēsture nav pārrakstīta.
+**Godīgi par vēsturi:** komiti veikti 14.10. un 02.11.; ne katru nedēļu. Vēsture nav pārrakstīta.
 
 **Viena izmaiņa nākamajam sprintam:** vismaz viens neliels PR katru nedēļu (izstrāde pa daļām, nevis pēdējā dienā).
 
-**Komandas biedru uzdevumi (PR #13 koda apskate, procesa pārbaude):** līdz 02.11. nav saņemti.
+**Procesa pašpārbaude:** atzaru nosaukumi ✓ · commit ziņojumi ✓ · nav .env/atslēgu ✓ · CI zaļš ✓ · DoD ✓ (apvienots tikai pēc zaļa CI).
