@@ -61,9 +61,11 @@ void main() {
 
     testWidgets('iziet: sesija tiek dzēsta, atgādinājumi atcelti', (tester) async {
       phone(tester);
-      final api = FakeApi();
+      final api = FakeApi(hasSession: true);
       final reminders = FakeReminders();
-      await tester.pumpWidget(shell(AppServices(api: api, reminders: reminders), tab: 3));
+      await tester.pumpWidget(KopsummaApp(services: AppServices(api: api, reminders: reminders)));
+      await tester.pumpAndSettle();
+      await tester.tap(find.byKey(const Key('tab-profile')));
       await tester.pumpAndSettle();
       expect(find.text('anna@inbox.lv'), findsOneWidget);
       await tester.tap(find.byKey(const Key('logout')));

@@ -66,7 +66,10 @@ class FakeApi implements KopsummaApi {
   Future<bool> restoreSession() async => hasSession;
 
   @override
-  Future<void> logout() async => loggedOut = true;
+  Future<void> logout() async {
+    loggedOut = true;
+    hasSession = false;
+  }
 
   @override
   Future<String> currentEmail() async => 'anna@inbox.lv';
