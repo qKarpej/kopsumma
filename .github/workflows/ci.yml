@@ -54,7 +54,7 @@ jobs:
         with:
           channel: stable
           cache: true
-      - run: flutter pub get
+      - run: flutter --version && flutter pub get
       - name: Linteris (flutter analyze)
         run: |
           flutter --version
@@ -67,6 +67,30 @@ jobs:
         run: |
           flutter test --reporter json > test-results.json || true
           python3 ../tool/flutter_failures.py test-results.json
+
+  builds:
+    name: build (android apk, web)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: mobile
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: "17"
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+      - run: flutter pub get
+      - name: Web
+        run: flutter build web --release --dart-define=API_BASE_URL=http://localhost:8000
+      - name: Android APK
+        run: flutter build apk --debug --dart-define=API_BASE_URL=http://10.0.2.2:8000 2>&1 | tee build.log
+      - if: failure()
+        run: grep -nE "error|Error|FAILURE|What went wrong" -A4 build.log | head -80 | sed 's/^/::error::/' || true
 
   secrets:
     runs-on: ubuntu-latest

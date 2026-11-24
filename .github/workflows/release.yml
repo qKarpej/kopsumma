@@ -1,0 +1,60 @@
+name: Testa versija
+
+# Testa būvējums: Android APK (instalējams telefonā) un web versija (zip).
+# Palaiž ar tagu, piem.: git tag v0.2.0 && git push origin v0.2.0 — vai manuāli Actions cilnē.
+on:
+  workflow_dispatch:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: mobile
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: "17"
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+      - run: flutter pub get
+      - name: Android APK
+        run: |
+          flutter build apk --release --dart-define=API_BASE_URL=http://10.0.2.2:8000
+          cp build/app/outputs/flutter-apk/app-release.apk ../kopsumma-${GITHUB_REF_NAME//\//-}.apk
+      - name: Web
+        run: |
+          flutter build web --release --dart-define=API_BASE_URL=http://localhost:8000
+          cd build/web && zip -qr ../../../kopsumma-web-${GITHUB_REF_NAME//\//-}.zip .
+      - uses: actions/upload-artifact@v4
+        with:
+          name: kopsumma-testa-versija
+          path: |
+            kopsumma-*.apk
+            kopsumma-web-*.zip
+      - if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          prerelease: true
+          files: |
+            kopsumma-*.apk
+            kopsumma-web-*.zip
+          body: |
+            Kopsumma testa versija (prototips).
+
+            **Android:** lejupielādējiet `.apk`, atļaujiet instalēšanu no šī avota un atveriet.
+            Sākuma ekrānā → „Servera adrese” ievadiet datora adresi lokālajā tīklā, piem. `http://192.168.1.20:8000`
+            (datorā palaists `docker compose up`).
+
+            **Pārlūks:** `docker compose up --build` → http://localhost:3000
+
+            Demo konts: `anna@inbox.lv` / `Kopsumma2026`. Demo izraksti: mape `demo/`.

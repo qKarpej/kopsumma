@@ -7,12 +7,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:kopsumma/app.dart';
+import 'package:kopsumma/platform/file_source.dart';
 import 'package:kopsumma/routes.dart';
 import 'package:kopsumma/screens/home_shell.dart';
 import 'package:kopsumma/state/app_scope.dart';
 import 'package:kopsumma/theme/app_theme.dart';
 
 import '../test/fake_api.dart';
+import '../test/fake_services.dart';
 
 Future<void> loadFonts() async {
   final dir = Directory('${Platform.environment['FLUTTER_ROOT']}/bin/cache/artifacts/material_fonts');
@@ -37,8 +39,8 @@ void phone(WidgetTester tester) {
   addTearDown(tester.view.reset);
 }
 
-Widget home(FakeApi api, {int tab = 0}) => AppScope(
-      api: api,
+Widget home(FakeApi api, {int tab = 0, AppServices? services}) => AppScope(
+      services: services ?? AppServices(api: api, reminders: FakeReminders()),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: buildTheme(fontFamily: 'Roboto'),
@@ -53,6 +55,7 @@ void main() {
   testWidgets('S-01', (t) async {
     phone(t);
     await t.pumpWidget(KopsummaApp(api: FakeApi(), fontFamily: 'Roboto'));
+    await t.pumpAndSettle();
     await expectLater(find.byType(MaterialApp), matchesGoldenFile('png/s01_start.png'));
   });
 
@@ -60,6 +63,7 @@ void main() {
     phone(t);
     await t.pumpWidget(KopsummaApp(api: FakeApi(), fontFamily: 'Roboto', initialRoute: Routes.login));
     await t.pumpAndSettle();
+    await t.enterText(find.byKey(const Key('email')), 'anna@inbox.lv');
     await t.enterText(find.byKey(const Key('password')), 'nepareiza');
     await t.tap(find.byKey(const Key('login')));
     await t.pumpAndSettle();
@@ -106,5 +110,75 @@ void main() {
     await t.pumpWidget(home(FakeApi(), tab: 2));
     await t.pumpAndSettle();
     await expectLater(find.byType(MaterialApp), matchesGoldenFile('png/s12_tax.png'));
+  });
+
+  testWidgets('S-02a reģistrācija', (t) async {
+    phone(t);
+    await t.pumpWidget(KopsummaApp(api: FakeApi(), fontFamily: 'Roboto', initialRoute: Routes.register));
+    await t.pumpAndSettle();
+    await t.enterText(find.byKey(const Key('reg-email')), 'juris@inbox.lv');
+    await t.enterText(find.byKey(const Key('reg-password')), 'parole');
+    await t.tap(find.byKey(const Key('register')));
+    await t.pumpAndSettle();
+    await expectLater(find.byType(MaterialApp), matchesGoldenFile('png/s02a_register.png'));
+  });
+
+  Future<void> openImport(WidgetTester t, String file, {String platform = 'Twino'}) async {
+    final api = FakeApi();
+    await t.pumpWidget(home(api,
+        services: AppServices(api: api, files: FakeFiles(PickedFile(file, const [1])), reminders: FakeReminders())));
+    await t.pumpAndSettle();
+    await t.tap(find.byKey(const Key('portfolio-import')));
+    await t.pumpAndSettle();
+    await t.tap(find.byKey(Key('platform-$platform')));
+    await t.pumpAndSettle();
+  }
+
+  testWidgets('S-05 faila izvēle', (t) async {
+    phone(t);
+    await openImport(t, 'twino_2026-10-11.csv');
+    await expectLater(find.byType(MaterialApp), matchesGoldenFile('png/s05_import.png'));
+  });
+
+  testWidgets('S-06 pārbaude', (t) async {
+    phone(t);
+    await openImport(t, 'twino_2026-10-11.csv');
+    await t.tap(find.byKey(const Key('pick-file')));
+    await t.pumpAndSettle();
+    await expectLater(find.byType(MaterialApp), matchesGoldenFile('png/s06_preview.png'));
+  });
+
+  testWidgets('S-08 saglabāts', (t) async {
+    phone(t);
+    await openImport(t, 'twino_2026-10-11.csv');
+    await t.tap(find.byKey(const Key('pick-file')));
+    await t.pumpAndSettle();
+    await t.tap(find.byKey(const Key('preview-save')));
+    await t.pumpAndSettle();
+    await expectLater(find.byType(MaterialApp), matchesGoldenFile('png/s08_done.png'));
+  });
+
+  testWidgets('S-09 kļūda failā', (t) async {
+    phone(t);
+    await openImport(t, 'mintos_bojats.csv', platform: 'Mintos');
+    await t.tap(find.byKey(const Key('pick-file')));
+    await t.pumpAndSettle();
+    await expectLater(find.byType(MaterialApp), matchesGoldenFile('png/s09_error.png'));
+  });
+
+  testWidgets('S-14 termiņi', (t) async {
+    phone(t);
+    await t.pumpWidget(home(FakeApi()));
+    await t.pumpAndSettle();
+    await t.tap(find.byKey(const Key('next-deadline')));
+    await t.pumpAndSettle();
+    await expectLater(find.byType(MaterialApp), matchesGoldenFile('png/s14_deadlines.png'));
+  });
+
+  testWidgets('S-13 profils', (t) async {
+    phone(t);
+    await t.pumpWidget(home(FakeApi(), tab: 3));
+    await t.pumpAndSettle();
+    await expectLater(find.byType(MaterialApp), matchesGoldenFile('png/s13_profile.png'));
   });
 }

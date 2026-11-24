@@ -6,16 +6,17 @@ import 'state/app_scope.dart';
 import 'theme/app_theme.dart';
 
 class KopsummaApp extends StatelessWidget {
-  const KopsummaApp({super.key, required this.api, this.initialRoute = Routes.start, this.fontFamily});
+  KopsummaApp({super.key, KopsummaApi? api, AppServices? services, this.initialRoute = Routes.start, this.fontFamily})
+      : services = services ?? AppServices(api: api!);
 
-  final KopsummaApi api;
+  final AppServices services;
   final String initialRoute;
   final String? fontFamily;
 
   @override
   Widget build(BuildContext context) {
     return AppScope(
-      api: api,
+      services: services,
       child: MaterialApp(
         title: 'Kopsumma',
         theme: buildTheme(fontFamily: fontFamily),

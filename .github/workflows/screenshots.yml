@@ -3,7 +3,7 @@ name: Ekrānuzņēmumi
 on:
   workflow_dispatch:
   push:
-    branches: [main, feat/mobile-vertical-slice]
+    branches: [main, feat/mobile-prototype]
     paths: ["mobile/**"]
 
 permissions:
