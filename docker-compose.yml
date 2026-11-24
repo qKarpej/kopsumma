@@ -1,10 +1,15 @@
+# Viena komanda: docker compose up --build
+#   API      → http://localhost:8000/docs
+#   Lietotne → http://localhost:3000  (Flutter web būvējums, pieteikšanās anna@inbox.lv / Kopsumma2026)
+# .env nav obligāts; bez tā tiek izmantotas izstrādes noklusējuma vērtības un ģenerēta JWT atslēga.
 services:
   db:
     image: postgres:16
     environment:
       POSTGRES_USER: kopsumma
       POSTGRES_DB: kopsumma
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      # Lokālai izstrādei: DB ports netiek atvērts uz āru, piekļūst tikai api konteiners tajā pašā tīklā.
+      POSTGRES_HOST_AUTH_METHOD: trust
     volumes:
       - pgdata:/var/lib/postgresql/data
     healthcheck:
@@ -14,15 +19,35 @@ services:
 
   api:
     build: ./backend
-    env_file: .env
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      DATABASE_URL: postgresql+psycopg://kopsumma@db:5432/kopsumma
+      UPLOAD_DIR: /data/uploads
+      SEED_DEMO: ${SEED_DEMO:-1}
     ports:
       - "8000:8000"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request;urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 5s
+      retries: 20
     volumes:
-      - uploads:/data/uploads
+      - appdata:/data
     depends_on:
       db:
         condition: service_healthy
 
+  web:
+    build:
+      context: ./mobile
+      args:
+        API_BASE_URL: ${API_BASE_URL:-http://localhost:8000}
+    ports:
+      - "3000:80"
+    depends_on:
+      - api
+
 volumes:
   pgdata:
-  uploads:
+  appdata:

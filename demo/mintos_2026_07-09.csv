@@ -1,0 +1,131 @@
+Transaction ID,Date,Details,Turnover,Balance,Currency,Payment Type
+MT-88412000,2026-07-02 00:00:00,Investment principal repayment loan ID 20000-01,76.09,,EUR,Investment principal repayment
+MT-88412001,2026-07-02 11:00:00,Interest received loan ID 20001-01,0.90,,EUR,Interest received
+MT-88412002,2026-07-03 00:00:00,Investment principal repayment loan ID 20002-01,48.71,,EUR,Investment principal repayment
+MT-88412003,2026-07-03 16:00:00,Interest received loan ID 20003-01,0.97,,EUR,Interest received
+MT-88412004,2026-07-04 08:00:00,Interest received loan ID 20004-01,1.82,,EUR,Interest received
+MT-88412005,2026-07-04 19:00:00,Interest received loan ID 20005-01,5.05,,EUR,Interest received
+MT-88412006,2026-07-05 05:00:00,Investment principal increase loan ID 20006-01,-123.42,,EUR,Investment principal increase
+MT-88412007,2026-07-05 18:00:00,Discount/premium for secondary market transaction loan ID 20007-01,-1.70,,EUR,Discount/premium for secondary market transaction
+MT-88412008,2026-07-06 06:00:00,Interest received loan ID 20008-01,3.56,,EUR,Interest received
+MT-88412009,2026-07-06 17:00:00,Investment principal repayment loan ID 20009-01,36.44,,EUR,Investment principal repayment
+MT-88412010,2026-07-07 05:00:00,Investment principal repayment loan ID 20010-01,47.02,,EUR,Investment principal repayment
+MT-88412011,2026-07-07 18:00:00,Interest received loan ID 20011-01,3.70,,EUR,Interest received
+MT-88412012,2026-07-08 05:00:00,Investment principal repayment loan ID 20012-01,12.31,,EUR,Investment principal repayment
+MT-88412013,2026-07-08 22:00:00,Interest received loan ID 20013-01,3.90,,EUR,Interest received
+MT-88412014,2026-07-09 15:00:00,Discount/premium for secondary market transaction loan ID 20014-01,2.66,,EUR,Discount/premium for secondary market transaction
+MT-88412015,2026-07-10 04:00:00,Discount/premium for secondary market transaction loan ID 20015-01,0.17,,EUR,Discount/premium for secondary market transaction
+MT-88412016,2026-07-10 17:00:00,Investment principal increase loan ID 20016-01,-104.28,,EUR,Investment principal increase
+MT-88412017,2026-07-11 10:00:00,Interest received loan ID 20017-01,3.66,,EUR,Interest received
+MT-88412018,2026-07-12 00:00:00,Investment principal repayment loan ID 20018-01,59.71,,EUR,Investment principal repayment
+MT-88412019,2026-07-12 16:00:00,Interest received loan ID 20019-01,1.15,,EUR,Interest received
+MT-88412020,2026-07-13 04:00:00,Investment principal increase loan ID 20020-01,-88.00,,EUR,Investment principal increase
+MT-88412021,2026-07-13 15:00:00,Discount/premium for secondary market transaction loan ID 20021-01,0.53,,EUR,Discount/premium for secondary market transaction
+MT-88412022,2026-07-14 06:00:00,Investment principal repayment loan ID 20022-01,30.51,,EUR,Investment principal repayment
+MT-88412023,2026-07-14 23:00:00,Discount/premium for secondary market transaction loan ID 20023-01,1.48,,EUR,Discount/premium for secondary market transaction
+MT-88412024,2026-07-15 13:00:00,Interest received loan ID 20024-01,5.12,,EUR,Interest received
+MT-88412025,2026-07-16 00:00:00,Discount/premium for secondary market transaction loan ID 20025-01,2.18,,EUR,Discount/premium for secondary market transaction
+MT-88412026,2026-07-16 14:00:00,Interest received loan ID 20026-01,4.52,,EUR,Interest received
+MT-88412027,2026-07-17 06:00:00,Discount/premium for secondary market transaction loan ID 20027-01,-0.29,,EUR,Discount/premium for secondary market transaction
+MT-88412028,2026-07-17 23:00:00,Investment principal repayment loan ID 20028-01,6.69,,EUR,Investment principal repayment
+MT-88412029,2026-07-18 10:00:00,Investment principal repayment loan ID 20029-01,17.60,,EUR,Investment principal repayment
+MT-88412030,2026-07-19 00:00:00,Discount/premium for secondary market transaction loan ID 20030-01,-1.65,,EUR,Discount/premium for secondary market transaction
+MT-88412031,2026-07-19 16:00:00,Investment principal increase loan ID 20031-01,-93.26,,EUR,Investment principal increase
+MT-88412032,2026-07-20 09:00:00,Discount/premium for secondary market transaction loan ID 20032-01,3.50,,EUR,Discount/premium for secondary market transaction
+MT-88412033,2026-07-21 01:00:00,Interest received loan ID 20033-01,1.42,,EUR,Interest received
+MT-88412034,2026-07-21 17:00:00,Investment principal repayment loan ID 20034-01,71.25,,EUR,Investment principal repayment
+MT-88412035,2026-07-22 08:00:00,Investment principal repayment loan ID 20035-01,57.98,,EUR,Investment principal repayment
+MT-88412036,2026-07-22 20:00:00,Discount/premium for secondary market transaction loan ID 20036-01,3.75,,EUR,Discount/premium for secondary market transaction
+MT-88412037,2026-07-23 09:00:00,Interest received loan ID 20037-01,1.47,,EUR,Interest received
+MT-88412038,2026-07-23 21:00:00,Investment principal increase loan ID 20038-01,-296.62,,EUR,Investment principal increase
+MT-88412039,2026-07-24 09:00:00,Investment principal repayment loan ID 20039-01,26.14,,EUR,Investment principal repayment
+MT-88412010,2026-07-07 05:00:00,Investment principal repayment loan ID 20010-01,47.02,,EUR,Investment principal repayment
+MT-88412040,2026-07-25 00:00:00,Discount/premium for secondary market transaction loan ID 20040-01,1.21,,EUR,Discount/premium for secondary market transaction
+MT-88412041,2026-07-25 10:00:00,Investment principal increase loan ID 20041-01,-106.66,,EUR,Investment principal increase
+MT-88412042,2026-07-26 02:00:00,Discount/premium for secondary market transaction loan ID 20042-01,3.40,,EUR,Discount/premium for secondary market transaction
+MT-88412043,2026-07-26 13:00:00,Discount/premium for secondary market transaction loan ID 20043-01,0.39,,EUR,Discount/premium for secondary market transaction
+MT-88412044,2026-07-26 23:00:00,Discount/premium for secondary market transaction loan ID 20044-01,1.81,,EUR,Discount/premium for secondary market transaction
+MT-88412045,2026-07-27 12:00:00,Investment principal increase loan ID 20045-01,-281.14,,EUR,Investment principal increase
+MT-88412046,2026-07-28 03:00:00,Discount/premium for secondary market transaction loan ID 20046-01,-1.03,,EUR,Discount/premium for secondary market transaction
+MT-88412047,2026-07-28 15:00:00,Interest received loan ID 20047-01,1.06,,EUR,Interest received
+MT-88412048,2026-07-29 01:00:00,Interest received loan ID 20048-01,5.72,,EUR,Interest received
+MT-88412049,2026-07-29 17:00:00,Interest received loan ID 20049-01,5.31,,EUR,Interest received
+MT-88412050,2026-07-30 08:00:00,Investment principal increase loan ID 20050-01,-122.37,,EUR,Investment principal increase
+MT-88412051,2026-07-30 19:00:00,Investment principal repayment loan ID 20051-01,40.56,,EUR,Investment principal repayment
+MT-88412052,2026-07-31 12:00:00,Discount/premium for secondary market transaction loan ID 20052-01,3.96,,EUR,Discount/premium for secondary market transaction
+MT-88412053,2026-07-31 23:00:00,Discount/premium for secondary market transaction loan ID 20053-01,0.90,,EUR,Discount/premium for secondary market transaction
+MT-88412054,2026-08-01 14:00:00,Investment principal increase loan ID 20054-01,-271.39,,EUR,Investment principal increase
+MT-88412055,2026-08-02 02:00:00,Investment principal repayment loan ID 20055-01,40.90,,EUR,Investment principal repayment
+MT-88412056,2026-08-02 17:00:00,Interest received loan ID 20056-01,1.63,,EUR,Interest received
+MT-88412057,2026-08-03 03:00:00,Investment principal increase loan ID 20057-01,-106.78,,EUR,Investment principal increase
+MT-88412058,2026-08-03 14:00:00,Investment principal repayment loan ID 20058-01,78.39,,EUR,Investment principal repayment
+MT-88412059,2026-08-04 02:00:00,Investment principal repayment loan ID 20059-01,43.88,,EUR,Investment principal repayment
+MT-88412060,2026-08-04 17:00:00,Investment principal repayment loan ID 20060-01,62.90,,EUR,Investment principal repayment
+MT-88412061,2026-08-05 06:00:00,Investment principal increase loan ID 20061-01,-128.30,,EUR,Investment principal increase
+MT-88412062,2026-08-05 19:00:00,Investment principal increase loan ID 20062-01,-70.87,,EUR,Investment principal increase
+MT-88412063,2026-08-06 10:00:00,Investment principal increase loan ID 20063-01,-155.06,,EUR,Investment principal increase
+MT-88412064,2026-08-07 00:00:00,Interest received loan ID 20064-01,5.94,,EUR,Interest received
+MT-88412065,2026-08-07 15:00:00,Discount/premium for secondary market transaction loan ID 20065-01,-0.44,,EUR,Discount/premium for secondary market transaction
+MT-88412066,2026-08-08 06:00:00,Discount/premium for secondary market transaction loan ID 20066-01,2.85,,EUR,Discount/premium for secondary market transaction
+MT-88412067,2026-08-08 17:00:00,Investment principal repayment loan ID 20067-01,11.04,,EUR,Investment principal repayment
+MT-88412068,2026-08-09 08:00:00,Investment principal increase loan ID 20068-01,-168.38,,EUR,Investment principal increase
+MT-88412069,2026-08-09 18:00:00,Investment principal increase loan ID 20069-01,-164.86,,EUR,Investment principal increase
+MT-88412070,2026-08-10 09:00:00,Discount/premium for secondary market transaction loan ID 20070-01,3.46,,EUR,Discount/premium for secondary market transaction
+MT-88412071,2026-08-10 20:00:00,Interest received loan ID 20071-01,5.09,,EUR,Interest received
+MT-88412072,2026-08-11 09:00:00,Discount/premium for secondary market transaction loan ID 20072-01,2.69,,EUR,Discount/premium for secondary market transaction
+MT-88412073,2026-08-12 01:00:00,Discount/premium for secondary market transaction loan ID 20073-01,3.33,,EUR,Discount/premium for secondary market transaction
+MT-88412074,2026-08-12 17:00:00,Investment principal repayment loan ID 20074-01,11.51,,EUR,Investment principal repayment
+MT-88412075,2026-08-13 04:00:00,Discount/premium for secondary market transaction loan ID 20075-01,0.41,,EUR,Discount/premium for secondary market transaction
+MT-88412076,2026-08-13 16:00:00,Investment principal increase loan ID 20076-01,-252.40,,EUR,Investment principal increase
+MT-88412077,2026-08-14 09:00:00,Interest received loan ID 20077-01,1.33,,EUR,Interest received
+MT-88412078,2026-08-15 02:00:00,Investment principal increase loan ID 20078-01,-128.76,,EUR,Investment principal increase
+MT-88412079,2026-08-15 14:00:00,Investment principal repayment loan ID 20079-01,16.69,,EUR,Investment principal repayment
+MT-88412080,2026-08-16 01:00:00,Interest received loan ID 20080-01,0.58,,EUR,Interest received
+MT-88412081,2026-08-16 14:00:00,Investment principal increase loan ID 20081-01,-178.53,,EUR,Investment principal increase
+MT-88412082,2026-08-17 03:00:00,Investment principal increase loan ID 20082-01,-292.16,,EUR,Investment principal increase
+MT-88412083,2026-08-17 18:00:00,Investment principal repayment loan ID 20083-01,42.59,,EUR,Investment principal repayment
+MT-88412084,2026-08-18 06:00:00,Investment principal repayment loan ID 20084-01,45.83,,EUR,Investment principal repayment
+MT-88412085,2026-08-18 21:00:00,Interest received loan ID 20085-01,5.51,,EUR,Interest received
+MT-88412086,2026-08-19 13:00:00,Discount/premium for secondary market transaction loan ID 20086-01,1.97,,EUR,Discount/premium for secondary market transaction
+MT-88412087,2026-08-19 23:00:00,Investment principal increase loan ID 20087-01,-151.09,,EUR,Investment principal increase
+MT-88412088,2026-08-20 09:00:00,Discount/premium for secondary market transaction loan ID 20088-01,2.66,,EUR,Discount/premium for secondary market transaction
+MT-88412059,2026-08-04 02:00:00,Investment principal repayment loan ID 20059-01,43.88,,EUR,Investment principal repayment
+MT-88412089,2026-08-21 02:00:00,Investment principal increase loan ID 20089-01,-251.74,,EUR,Investment principal increase
+MT-88412090,2026-08-21 17:00:00,Interest received loan ID 20090-01,3.56,,EUR,Interest received
+MT-88412091,2026-08-22 04:00:00,Discount/premium for secondary market transaction loan ID 20091-01,2.71,,EUR,Discount/premium for secondary market transaction
+MT-88412092,2026-08-22 18:00:00,Interest received loan ID 20092-01,1.87,,EUR,Interest received
+MT-88412093,2026-08-23 11:00:00,Interest received loan ID 20093-01,4.75,,EUR,Interest received
+MT-88412094,2026-08-23 22:00:00,Interest received loan ID 20094-01,4.68,,EUR,Interest received
+MT-88412095,2026-08-24 11:00:00,Discount/premium for secondary market transaction loan ID 20095-01,-0.05,,EUR,Discount/premium for secondary market transaction
+MT-88412096,2026-08-25 04:00:00,Investment principal repayment loan ID 20096-01,38.93,,EUR,Investment principal repayment
+MT-88412097,2026-08-25 18:00:00,Investment principal increase loan ID 20097-01,-104.22,,EUR,Investment principal increase
+MT-88412098,2026-08-26 06:00:00,Investment principal increase loan ID 20098-01,-64.80,,EUR,Investment principal increase
+MT-88412099,2026-08-26 23:00:00,Discount/premium for secondary market transaction loan ID 20099-01,-1.27,,EUR,Discount/premium for secondary market transaction
+MT-88412100,2026-08-27 12:00:00,Investment principal repayment loan ID 20100-01,10.44,,EUR,Investment principal repayment
+MT-88412101,2026-08-28 02:00:00,Discount/premium for secondary market transaction loan ID 20101-01,-1.56,,EUR,Discount/premium for secondary market transaction
+MT-88412102,2026-08-28 14:00:00,Interest received loan ID 20102-01,5.43,,EUR,Interest received
+MT-88412103,2026-08-29 02:00:00,Investment principal repayment loan ID 20103-01,15.72,,EUR,Investment principal repayment
+MT-88412104,2026-08-29 13:00:00,Discount/premium for secondary market transaction loan ID 20104-01,-0.68,,EUR,Discount/premium for secondary market transaction
+MT-88412105,2026-08-30 01:00:00,Discount/premium for secondary market transaction loan ID 20105-01,3.31,,EUR,Discount/premium for secondary market transaction
+MT-88412106,2026-08-30 17:00:00,Investment principal increase loan ID 20106-01,-254.79,,EUR,Investment principal increase
+MT-88412107,2026-08-31 06:00:00,Discount/premium for secondary market transaction loan ID 20107-01,0.03,,EUR,Discount/premium for secondary market transaction
+MT-88412108,2026-08-31 21:00:00,Investment principal repayment loan ID 20108-01,28.89,,EUR,Investment principal repayment
+MT-88412109,2026-09-01 14:00:00,Interest received loan ID 20109-01,2.36,,EUR,Interest received
+MT-88412110,2026-09-02 06:00:00,Discount/premium for secondary market transaction loan ID 20110-01,2.22,,EUR,Discount/premium for secondary market transaction
+MT-88412111,2026-09-02 20:00:00,Investment principal repayment loan ID 20111-01,43.81,,EUR,Investment principal repayment
+MT-88412112,2026-09-03 09:00:00,Interest received loan ID 20112-01,1.12,,EUR,Interest received
+MT-88412113,2026-09-03 23:00:00,Interest received loan ID 20113-01,0.96,,EUR,Interest received
+MT-88412114,2026-09-04 11:00:00,Interest received loan ID 20114-01,5.48,,EUR,Interest received
+MT-88412115,2026-09-05 03:00:00,Investment principal repayment loan ID 20115-01,61.68,,EUR,Investment principal repayment
+MT-88412116,2026-09-05 20:00:00,Investment principal repayment loan ID 20116-01,35.45,,EUR,Investment principal repayment
+MT-88412117,2026-09-06 06:00:00,Investment principal repayment loan ID 20117-01,11.71,,EUR,Investment principal repayment
+MT-88412118,2026-09-06 17:00:00,Investment principal increase loan ID 20118-01,-180.91,,EUR,Investment principal increase
+MT-88412119,2026-09-07 04:00:00,Investment principal repayment loan ID 20119-01,75.38,,EUR,Investment principal repayment
+MT-88412120,2026-09-07 17:00:00,Investment principal repayment loan ID 20120-01,11.28,,EUR,Investment principal repayment
+MT-88412121,2026-09-08 04:00:00,Interest received loan ID 20121-01,1.95,,EUR,Interest received
+MT-88412122,2026-09-08 20:00:00,Discount/premium for secondary market transaction loan ID 20122-01,-1.93,,EUR,Discount/premium for secondary market transaction
+MT-88412123,2026-09-09 06:00:00,Investment principal repayment loan ID 20123-01,51.63,,EUR,Investment principal repayment
+MT-88412124,2026-09-09 18:00:00,Investment principal increase loan ID 20124-01,-37.32,,EUR,Investment principal increase
+MT-88412125,2026-09-10 07:00:00,Investment principal repayment loan ID 20125-01,8.78,,EUR,Investment principal repayment
+MT-88412126,2026-09-10 20:00:00,Investment principal repayment loan ID 20126-01,52.15,,EUR,Investment principal repayment
+MT-88412127,2026-09-11 08:00:00,Investment principal repayment loan ID 20127-01,38.43,,EUR,Investment principal repayment
