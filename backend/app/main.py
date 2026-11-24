@@ -16,6 +16,7 @@ app.add_middleware(
 )
 app.include_router(auth.router)
 app.include_router(imports.router)
+app.include_router(imports.platforms_router)
 app.include_router(portfolio.router)
 
 
