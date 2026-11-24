@@ -58,7 +58,11 @@ jobs:
       - name: Linteris (flutter analyze)
         run: |
           flutter --version
-          flutter analyze > analyze.txt 2>&1 || { grep -E "(error|warning|info) •" analyze.txt | sed 's/^/::error::/'; exit 1; }
+          # Flutter 3.47+ atzīmē package:flutter/material.dart kā novecojušu (pāreja uz material_ui) —
+          # info līmenis netiek uzskatīts par kļūdu, brīdinājumi un kļūdas — jā.
+          flutter analyze --no-fatal-infos > analyze.txt 2>&1 && rc=0 || rc=$?
+          grep -E "(error|warning|info) •" analyze.txt | grep -v "material_ui" | head -20 | sed 's/^/::warning::/' || true
+          exit $rc
       - name: Testi (flutter test)
         run: |
           flutter test --reporter json > test-results.json || true
