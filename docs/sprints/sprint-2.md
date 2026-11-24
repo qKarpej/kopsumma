@@ -16,7 +16,7 @@ redz portfeli un nodokli un saņem atgādinājumus par termiņiem; lietotne inst
 | 7 | `docker compose up` — API + DB + demo dati + web lietotne | PR #25 | ✅ |
 | 8 | Testa būvējumi: Android APK un web CI; laidiena darbplūsma | PR #26 | ✅ |
 
-**Testi:** backend 66 (t. sk. Twino parsētājs, importa plūsma, termiņi, sesijas rotācija), testa serveris 7,
+**Testi:** backend 63 (t. sk. Twino parsētājs, importa plūsma, termiņi, sesijas rotācija), testa serveris 7,
 Flutter — API klients, kalendāra loģika, importa / reģistrācijas / termiņu ekrānu scenāriji.
 
 **Kas nav izdarīts:** iOS būvējums (nav macOS CI), īsts hostings internetā (demo — lokālais Docker),
