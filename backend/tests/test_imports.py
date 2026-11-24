@@ -46,7 +46,7 @@ def test_broken_file_returns_row_number(client, token):
 
 
 def test_unsupported_platform(client, token):
-    r = _upload(client, token, "mintos_2026_07-09.csv", platform=2)
+    r = _upload(client, token, "mintos_2026_07-09.csv", platform=99)
     assert r.status_code == 400
     assert r.json()["error"]["code"] == "PLATFORM_UNSUPPORTED"
 

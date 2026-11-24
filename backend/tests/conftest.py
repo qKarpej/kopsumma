@@ -26,7 +26,7 @@ def client(tmp_path, monkeypatch):
     with Session() as db:
         db.add_all([
             Platforma(id=1, nosaukums="Mintos", formata_versija="2025-csv", aktiva=True),
-            Platforma(id=2, nosaukums="Twino", formata_versija="2025-csv", aktiva=False),
+            Platforma(id=2, nosaukums="Twino", formata_versija="2025-csv", aktiva=True),
             NodoklaLikme(id=1, ienakuma_veids=TxType.procenti, likme_bazes_punktos=2550,
                          slieksnis_centos=100000, speka_no=date(2025, 1, 1)),
         ])

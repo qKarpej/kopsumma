@@ -90,6 +90,7 @@ class ImportaSesija(Base):
     izveidots: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
     apstiprinats: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
     idempotences_atslega: Mapped[str | None] = mapped_column(String(64))
+    platforma: Mapped[Platforma] = relationship()
 
 
 class Darijums(Base):

@@ -1,4 +1,4 @@
-"""API-08 portfelis, API-09/10 darījumi, API-11 nodoklis (FR-10, FR-11, FR-14)."""
+"""API-08 portfelis, API-09/10 darījumi, API-11 nodoklis, API-12 termiņi (FR-10, FR-11, FR-14–FR-16)."""
 
 import uuid
 from collections import defaultdict
@@ -130,3 +130,56 @@ def transaction(tx_id: uuid.UUID, user: Lietotajs = Depends(current_user), db: S
 @router.get("/tax")
 def tax(period: str = Query(...), user: Lietotajs = Depends(current_user), db: Session = Depends(get_db)):
     return _tax(db, user, period)
+
+
+def today() -> date:
+    return date.today()
+
+
+def _quarters_between(first: date, last: date) -> list[str]:
+    out, y, q = [], first.year, (first.month - 1) // 3 + 1
+    while (y, q) <= (last.year, (last.month - 1) // 3 + 1):
+        out.append(f"{y}-Q{q}")
+        y, q = (y + 1, 1) if q == 4 else (y, q + 1)
+    return out
+
+
+@router.get("/deadlines")
+def deadlines(user: Lietotajs = Depends(current_user), db: Session = Depends(get_db)):
+    """API-12: nodokļa termiņi atgādinājumiem un kalendāram (FR-15, FR-16).
+
+    Katram ceturksnim ar datiem — deklarēšanas un samaksas datums; nepabeigts ceturksnis
+    ir provizorisks (summa vēl mainīsies)."""
+    txs = _active(db, user)
+    now = today()
+    if not txs:
+        return {"items": [], "nakamais": None}
+    first = min(t.darijuma_datums for t in txs)
+    items = []
+    for period in _quarters_between(first, max(now, max(t.darijuma_datums for t in txs))):
+        t = _tax(db, user, period)
+        _, end = money.quarter_bounds(period)
+        pairs = [("deklaresana", t["deklaresanas_termins"]), ("samaksa", t["samaksas_termins"])]
+        if pairs[0][1] == pairs[1][1]:
+            pairs = [("deklaresana_un_samaksa", pairs[0][1])]
+        for kind, day in pairs:
+            items.append({
+                "periods": period, "veids": kind, "datums": day,
+                "nodoklis_centos": t["nodoklis_centos"], "apliekams_centos": t["apliekams_centos"],
+                "provizorisks": end >= now, "pagajis": date.fromisoformat(day) < now,
+            })
+    # vienā datumā var sakrist vairāki ceturkšņi (15. janvāris) — apvieno
+    merged: dict[tuple[str, str], dict] = {}
+    for it in items:
+        key = (it["datums"], it["veids"])
+        if key in merged:
+            m = merged[key]
+            m["periods"] += ", " + it["periods"]
+            m["nodoklis_centos"] += it["nodoklis_centos"]
+            m["apliekams_centos"] += it["apliekams_centos"]
+            m["provizorisks"] = m["provizorisks"] or it["provizorisks"]
+        else:
+            merged[key] = dict(it)
+    result = sorted(merged.values(), key=lambda x: (x["datums"], x["veids"]))
+    upcoming = [x for x in result if not x["pagajis"] and x["nodoklis_centos"] > 0]
+    return {"items": result, "nakamais": upcoming[0] if upcoming else None}

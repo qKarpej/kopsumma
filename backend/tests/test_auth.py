@@ -59,3 +59,30 @@ def test_error_format_has_request_id(client):
     err = r.json()["error"]
     assert set(err) == {"code", "message", "detail", "field", "request_id"}
     assert err["request_id"] == r.headers["X-Request-ID"]
+
+
+def _login(client):
+    client.post("/api/v1/auth/register", json={"epasts": "juris@inbox.lv", "parole": "Kopsumma2026"})
+    body = {"epasts": "juris@inbox.lv", "parole": "Kopsumma2026"}
+    return client.post("/api/v1/auth/login", json=body).json()
+
+
+def test_refresh_rotates_token(client):
+    t = _login(client)
+    r = client.post("/api/v1/auth/refresh", json={"refresh_token": t["refresh_token"]})
+    assert r.status_code == 200 and r.json()["refresh_token"] != t["refresh_token"]
+    reused = client.post("/api/v1/auth/refresh", json={"refresh_token": t["refresh_token"]})
+    assert reused.status_code == 401
+
+
+def test_logout_revokes_refresh(client):
+    t = _login(client)
+    assert client.post("/api/v1/auth/logout", json={"refresh_token": t["refresh_token"]}).status_code == 204
+    r = client.post("/api/v1/auth/refresh", json={"refresh_token": t["refresh_token"]})
+    assert r.json()["error"]["code"] == "AUTH_INVALID"
+
+
+def test_me(client):
+    t = _login(client)
+    me = client.get("/api/v1/auth/me", headers={"Authorization": f"Bearer {t['access_token']}"})
+    assert me.json()["epasts"] == "juris@inbox.lv"

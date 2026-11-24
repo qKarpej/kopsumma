@@ -3,6 +3,7 @@ from pathlib import Path
 import pytest
 
 from app.importers import mintos
+from app.importers.common import to_cents
 from app.models import TxType
 
 FIX = Path(__file__).parent / "fixtures"
@@ -30,7 +31,7 @@ def test_broken_file_reports_row_47():
 @pytest.mark.parametrize("raw,cents", [("4.12", 412), ("-250.00", -25000), ("0.005", 1),
                                        ("1,10", 110)])
 def test_cents_conversion_without_float(raw, cents):
-    assert mintos._to_cents(raw, 2) == cents
+    assert to_cents(raw, 2) == cents
 
 
 def test_type_mapping():

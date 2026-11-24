@@ -12,7 +12,7 @@ from app.importers import mintos
 from app.models import Darijums, Lietotajs, TxStatus
 from app.security import hash_password
 
-FIXTURE = Path(__file__).resolve().parent.parent / "tests" / "fixtures" / "mintos_2026_07-09.csv"
+FIXTURE = Path(__file__).resolve().parent / "demo_data" / "mintos_2026_07-09.csv"
 
 
 def main() -> None:

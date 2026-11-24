@@ -1,4 +1,5 @@
-"""API-05 izraksta pārbaude (nekas netiek saglabāts) un API-06 apstiprināšana (L-3)."""
+"""API-05 izraksta pārbaude (nekas netiek saglabāts), API-06 apstiprināšana (L-3),
+API-07 importu vēsture un atcelšana, platformu saraksts."""
 
 import json
 import uuid
@@ -13,13 +14,48 @@ from sqlalchemy.orm import Session
 from app.config import get_settings
 from app.db import get_db
 from app.errors import ApiError
-from app.importers import mintos
+from app.importers import mintos, twino
+from app.importers.common import ParseError
 from app.models import Darijums, ImportaSesija, ImportStatus, Lietotajs, Platforma, TxStatus, TxType
 from app.security import current_user
 
 router = APIRouter(prefix="/api/v1/imports", tags=["imports"])
 
-PARSERS = {"Mintos": mintos.parse}
+PARSERS = {"Mintos": mintos.parse, "Twino": twino.parse}
+platforms_router = APIRouter(prefix="/api/v1/platforms", tags=["imports"])
+
+
+@platforms_router.get("")
+def platforms(db: Session = Depends(get_db)):
+    rows = db.scalars(select(Platforma).order_by(Platforma.id)).all()
+    return {"items": [{"id": p.id, "nosaukums": p.nosaukums, "aktiva": p.aktiva and p.nosaukums in PARSERS}
+                      for p in rows]}
+
+
+def _session_json(x: ImportaSesija) -> dict:
+    return {"importa_id": str(x.id), "platforma": x.platforma.nosaukums, "faila_nosaukums": x.faila_nosaukums,
+            "statuss": x.statuss.value, "jauni": x.jauni, "dublikati": x.dublikati,
+            "kludas_rinda": x.kludas_rinda, "izveidots": x.izveidots.isoformat() if x.izveidots else None}
+
+
+@router.get("")
+def history(user: Lietotajs = Depends(current_user), db: Session = Depends(get_db)):
+    rows = db.scalars(select(ImportaSesija).where(ImportaSesija.lietotaja_id == user.id)
+                      .order_by(ImportaSesija.izveidots.desc()).limit(50)).all()
+    return {"items": [_session_json(x) for x in rows]}
+
+
+@router.post("/{import_id}/cancel")
+def cancel(import_id: uuid.UUID, user: Lietotajs = Depends(current_user), db: Session = Depends(get_db)):
+    session = db.get(ImportaSesija, import_id)
+    if session is None or session.lietotaja_id != user.id:
+        raise ApiError(404, "IMPORT_NOT_FOUND", "Imports nav atrasts.")
+    if session.statuss is not ImportStatus.parbaude:
+        raise ApiError(409, "IMPORT_NOT_CANCELLABLE", "Šo importu vairs nevar atcelt.")
+    session.statuss = ImportStatus.atcelts
+    db.commit()
+    Path(get_settings().upload_dir, f"{session.id}.json").unlink(missing_ok=True)
+    return _session_json(session)
 
 
 @router.post("", status_code=201)
@@ -47,7 +83,7 @@ async def upload(
     )
     try:
         result = PARSERS[platform.nosaukums](content)
-    except mintos.ParseError as err:
+    except ParseError as err:
         session.statuss, session.kludas_rinda = ImportStatus.kluda, err.row
         db.add(session)
         db.commit()
@@ -81,6 +117,8 @@ async def upload(
         "rindas": result.rows,
         "jauni": session.jauni,
         "dublikati": session.dublikati,
+        "izlaisti": result.skipped,
+        "platforma": platform.nosaukums,
         "periods": {"no": min(dates).isoformat(), "lidz": max(dates).isoformat()} if dates else None,
         "ienakumi_centos": sum(t.summa_centos for t in new if t.summa_centos > 0
                                and t.veids.value in ("procenti", "kapitala_pieaugums")),

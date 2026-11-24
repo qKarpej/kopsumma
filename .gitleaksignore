@@ -1,0 +1,4 @@
+# Viltus trauksmes: testos mainīgais `token` blakus faila nosaukumam (twino_2026-10-11.csv), nevis atslēga.
+08f3ef0ba46d516061ed630480d6da3e415022b4:backend/tests/test_import_flow.py:generic-api-key:23
+08f3ef0ba46d516061ed630480d6da3e415022b4:backend/tests/test_import_flow.py:generic-api-key:32
+08f3ef0ba46d516061ed630480d6da3e415022b4:backend/tests/test_import_flow.py:generic-api-key:37
