@@ -2,9 +2,13 @@ import 'package:flutter/material.dart';
 
 import '../api/models.dart';
 import '../money/money_format.dart';
+import '../routes.dart';
 import '../state/app_scope.dart';
 import '../theme/app_theme.dart';
 import '../widgets/async_view.dart';
+
+/// Tekošais ceturksnis, piem. 24.11.2026 → '2026-Q4'.
+String currentQuarter(DateTime now) => '${now.year}-Q${(now.month - 1) ~/ 3 + 1}';
 
 /// Pēdējais pilnais ceturksnis, piem. 02.11.2026 → '2026-Q3'.
 String lastCompletedQuarter(DateTime now) {
@@ -30,6 +34,7 @@ class TaxScreen extends StatefulWidget {
 }
 
 class _TaxScreenState extends State<TaxScreen> {
+  late final String _current = currentQuarter(widget.now ?? DateTime.now());
   late final String _latest = lastCompletedQuarter(widget.now ?? DateTime.now());
   late String _period = _latest;
 
@@ -37,13 +42,21 @@ class _TaxScreenState extends State<TaxScreen> {
   Widget build(BuildContext context) {
     final api = AppScope.apiOf(context);
     final text = Theme.of(context).textTheme;
-    final periods = [_latest, previousQuarter(_latest)];
+    final periods = [_current, _latest, previousQuarter(_latest)];
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Padding(
-          padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
-          child: Text('Nodoklis', style: text.headlineMedium),
+          padding: const EdgeInsets.fromLTRB(16, 8, 8, 0),
+          child: Row(children: [
+            Expanded(child: Text('Nodoklis', style: text.headlineMedium)),
+            TextButton.icon(
+              key: const Key('tax-deadlines'),
+              onPressed: () => Navigator.of(context).pushNamed(Routes.deadlines),
+              icon: const Icon(Icons.notifications_outlined),
+              label: const Text('Termiņi'),
+            ),
+          ]),
         ),
         Padding(
           padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
@@ -52,7 +65,7 @@ class _TaxScreenState extends State<TaxScreen> {
             children: [
               for (final p in periods)
                 ChoiceChip(
-                  label: Text(formatPeriod(p)),
+                  label: Text(p == _current ? '${formatPeriod(p)} (tekošais)' : formatPeriod(p)),
                   selected: _period == p,
                   onSelected: (_) => setState(() => _period = p),
                 ),

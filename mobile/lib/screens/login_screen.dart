@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../api/api_client.dart';
 import '../routes.dart';
 import '../state/app_scope.dart';
-import '../theme/app_theme.dart';
+import '../widgets/form_parts.dart';
 
 /// S-02 Pieteikšanās ar kļūdas stāvokli.
 class LoginScreen extends StatefulWidget {
@@ -14,7 +14,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final _email = TextEditingController(text: 'anna@inbox.lv');
+  final _email = TextEditingController();
   final _password = TextEditingController();
   String? _error;
   bool _busy = false;
@@ -27,6 +27,11 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Future<void> _submit() async {
+    final emailError = emailProblem(_email.text);
+    if (emailError != null || _password.text.isEmpty) {
+      setState(() => _error = emailError ?? 'Ievadiet paroli.');
+      return;
+    }
     setState(() {
       _busy = true;
       _error = null;
@@ -48,61 +53,46 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       appBar: AppBar(title: Text('Pieteikšanās', style: text.headlineMedium)),
       body: SafeArea(
-        child: ListView(
-          padding: const EdgeInsets.all(16),
-          children: [
-            Text('Ievadiet e-pastu un paroli, ko izmantojāt reģistrējoties.', style: text.bodyMedium),
-            const SizedBox(height: 24),
-            const _Label('E-pasts'),
-            TextField(key: const Key('email'), controller: _email, keyboardType: TextInputType.emailAddress),
-            const SizedBox(height: 12),
-            const _Label('Parole'),
-            TextField(
-              key: const Key('password'),
-              controller: _password,
-              obscureText: true,
-              onSubmitted: (_) => _submit(),
-              decoration: InputDecoration(error: _error == null ? null : _ErrorText(_error!)),
-            ),
-            const SizedBox(height: 24),
-            FilledButton(
-              key: const Key('login'),
-              onPressed: _busy ? null : _submit,
-              child: _busy
-                  ? const SizedBox.square(dimension: 22, child: CircularProgressIndicator(strokeWidth: 2.5))
-                  : const Text('Pieteikties'),
-            ),
-          ],
+        child: AutofillGroup(
+          child: ListView(
+            padding: const EdgeInsets.all(16),
+            children: [
+              Text('Ievadiet e-pastu un paroli, ko izmantojāt reģistrējoties.', style: text.bodyMedium),
+              const SizedBox(height: 24),
+              const FieldLabel('E-pasts'),
+              TextField(
+                key: const Key('email'),
+                controller: _email,
+                keyboardType: TextInputType.emailAddress,
+                autofillHints: const [AutofillHints.email],
+                textInputAction: TextInputAction.next,
+              ),
+              const SizedBox(height: 12),
+              const FieldLabel('Parole'),
+              TextField(
+                key: const Key('password'),
+                controller: _password,
+                obscureText: true,
+                autofillHints: const [AutofillHints.password],
+                onSubmitted: (_) => _submit(),
+                decoration: InputDecoration(error: _error == null ? null : FieldError(_error!)),
+              ),
+              const SizedBox(height: 24),
+              FilledButton(
+                key: const Key('login'),
+                onPressed: _busy ? null : _submit,
+                child: BusyLabel(busy: _busy, label: 'Pieteikties'),
+              ),
+              const SizedBox(height: 8),
+              TextButton(
+                key: const Key('to-register'),
+                onPressed: () => Navigator.of(context).pushReplacementNamed(Routes.register),
+                child: const Text('Nav konta? Izveidot kontu'),
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
-}
-
-class _Label extends StatelessWidget {
-  const _Label(this.text);
-
-  final String text;
-
-  @override
-  Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.only(bottom: 4),
-        child: Text(text, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: AppColors.ink)),
-      );
-}
-
-class _ErrorText extends StatelessWidget {
-  const _ErrorText(this.message);
-
-  final String message;
-
-  @override
-  Widget build(BuildContext context) => Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Icon(Icons.error_outline, size: 18, color: AppColors.danger),
-          const SizedBox(width: 4),
-          Expanded(child: Text(message, style: const TextStyle(fontSize: 14, color: AppColors.danger))),
-        ],
-      );
 }

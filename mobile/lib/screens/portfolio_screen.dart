@@ -6,6 +6,7 @@ import '../routes.dart';
 import '../state/app_scope.dart';
 import '../theme/app_theme.dart';
 import '../widgets/async_view.dart';
+import '../widgets/next_deadline_card.dart';
 
 /// S-03 Portfelis — vertikālās šķēles galvenais ekrāns ar četriem stāvokļiem.
 class PortfolioScreen extends StatelessWidget {
@@ -23,17 +24,31 @@ class PortfolioScreen extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Padding(
-          padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
-          child: Text('Portfelis', style: text.headlineMedium),
+          padding: const EdgeInsets.fromLTRB(16, 8, 8, 0),
+          child: Row(children: [
+            Expanded(child: Text('Portfelis', style: text.headlineMedium)),
+            TextButton.icon(
+              key: const Key('portfolio-import'),
+              onPressed: () => Navigator.of(context).pushNamed(Routes.importStart),
+              icon: const Icon(Icons.add),
+              label: const Text('Importēt'),
+            ),
+          ]),
         ),
         Expanded(
           child: AsyncView<Portfolio>(
             load: api.portfolio,
             isEmpty: (p) => p.isEmpty,
-            empty: (_) => const EmptyState(
+            empty: (context) => EmptyState(
               icon: Icons.description_outlined,
               title: 'Vēl nav neviena darījuma',
               message: 'Importējiet izrakstu no Mintos vai Twino, un šeit būs redzama kopējā portfeļa vērtība.',
+              action: FilledButton.icon(
+                key: const Key('empty-import'),
+                onPressed: () => Navigator.of(context).pushNamed(Routes.importStart),
+                icon: const Icon(Icons.upload_file),
+                label: const Text('Importēt izrakstu'),
+              ),
             ),
             ready: (context, p, reload) => RefreshIndicator(
               onRefresh: reload,
@@ -65,6 +80,8 @@ class PortfolioScreen extends StatelessWidget {
                     const SizedBox(height: 20),
                     _TaxCard(tax: p.tax!, onTap: onOpenTax),
                   ],
+                  const SizedBox(height: 12),
+                  const NextDeadlineCard(),
                 ],
               ),
             ),

@@ -61,9 +61,11 @@ void main() {
   testWidgets('pilns scenārijs: sākums → pieteikšanās → portfelis → darījums → nodoklis', (tester) async {
       phone(tester);
     await tester.pumpWidget(KopsummaApp(api: FakeApi()));
+    await tester.pumpAndSettle();
     await tester.tap(find.byKey(const Key('start-login')));
     await tester.pumpAndSettle();
 
+    await tester.enterText(find.byKey(const Key('email')), 'anna@inbox.lv');
     await tester.enterText(find.byKey(const Key('password')), 'nepareiza');
     await tester.tap(find.byKey(const Key('login')));
     await tester.pumpAndSettle();
