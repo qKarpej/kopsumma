@@ -1,7 +1,7 @@
 # Kopsumma
 
 - **Viss ar vienu komandu:** `docker compose up --build` → lietotne http://localhost:3000, API http://localhost:8000/docs · demo konts `anna@inbox.lv` / `Kopsumma2026`
-- **Telefonā (Android):** APK no [laidieniem](../../releases) → sākuma ekrānā „Servera adrese” → `http://<datora-IP>:8000`
+- **Telefonā (Android):** APK no [Actions → „Testa versija”](../../actions/workflows/release.yml) (artefakts `kopsumma-testa-versija`) → sākuma ekrānā „Servera adrese” → `http://<datora-IP>:8000`
 - **Testa serveris:** `python3 mock/server.py` (:8080, scenāriji `--scenario empty|error|slow`) · lietotne: `cd mobile && flutter run -d chrome --dart-define-from-file=config/mock.json`
 - **Testi:** `cd backend && pytest` · `cd mock && pytest` · `cd mobile && flutter test`
 
@@ -42,7 +42,7 @@ docker compose up --build        # pirmā būvēšana ~5 min (Flutter web)
 
 ### Telefons tajā pašā Wi-Fi tīklā
 1. Datorā: `docker compose up --build`; uzziniet datora IP (`ipconfig` / `ip a`).
-2. Telefonā instalējiet APK no GitHub laidiena (Actions → „Testa versija” vai tags `v*`).
+2. Telefonā instalējiet APK: Actions → „Testa versija” → pēdējais palaidums → artefakts `kopsumma-testa-versija` (zip ar APK).
 3. Lietotnē: Sākums → „Servera adrese” → `http://192.168.x.x:8000` → pieteikties.
 
 ### Backend bez Docker
