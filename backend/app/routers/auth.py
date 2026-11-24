@@ -1,5 +1,7 @@
-"""API-01 reģistrācija, API-02 pieteikšanās (FR-01, FR-02, DR-10)."""
+"""API-01 reģistrācija, API-02 pieteikšanās, API-03 sesijas atjaunošana un iziešana,
+API-04 profils (FR-01, FR-02, DR-10)."""
 
+import hashlib
 import re
 from datetime import UTC, datetime, timedelta
 
@@ -12,7 +14,13 @@ from app.config import get_settings
 from app.db import get_db
 from app.errors import ApiError
 from app.models import AtjaunosanasMarkieris, Lietotajs
-from app.security import create_access_token, hash_password, new_refresh_token, verify_password
+from app.security import (
+    create_access_token,
+    current_user,
+    hash_password,
+    new_refresh_token,
+    verify_password,
+)
 
 router = APIRouter(prefix="/api/v1/auth", tags=["auth"])
 
@@ -33,6 +41,10 @@ class RegisterIn(BaseModel):
 class LoginIn(BaseModel):
     epasts: EmailStr
     parole: str
+
+
+class RefreshIn(BaseModel):
+    refresh_token: str
 
 
 def _aware(dt: datetime | None) -> datetime | None:
@@ -77,11 +89,16 @@ def login(body: LoginIn, db: Session = Depends(get_db)):
         raise bad
 
     user.neveiksmigi_meginajumi, user.pirmais_neveiksmigais, user.blokets_lidz = 0, None, None
+    return _issue(db, user)
+
+
+def _issue(db: Session, user: Lietotajs) -> dict:
+    s = get_settings()
     refresh, refresh_hash = new_refresh_token()
     db.add(AtjaunosanasMarkieris(
         lietotaja_id=user.id,
         markiera_jaucejvertiba=refresh_hash,
-        deriga_lidz=now + timedelta(days=s.refresh_token_days),
+        deriga_lidz=datetime.now(UTC) + timedelta(days=s.refresh_token_days),
     ))
     db.commit()
     return {
@@ -90,3 +107,34 @@ def login(body: LoginIn, db: Session = Depends(get_db)):
         "expires_in": s.access_token_minutes * 60,
         "refresh_token": refresh,
     }
+
+
+def _find_refresh(db: Session, token: str) -> AtjaunosanasMarkieris | None:
+    digest = hashlib.sha256(token.encode()).hexdigest()
+    return db.scalar(select(AtjaunosanasMarkieris)
+                     .where(AtjaunosanasMarkieris.markiera_jaucejvertiba == digest))
+
+
+@router.post("/refresh")
+def refresh(body: RefreshIn, db: Session = Depends(get_db)):
+    """Rotācija: vecais marķieris tiek anulēts, izsniegts jauns pāris."""
+    row = _find_refresh(db, body.refresh_token)
+    expired = row is None or row.anulets or _aware(row.deriga_lidz) <= datetime.now(UTC)
+    user = None if row is None else db.get(Lietotajs, row.lietotaja_id)
+    if expired or user is None or user.dzesanas_pieprasijums is not None:
+        raise ApiError(401, "AUTH_INVALID", "Sesija beigusies. Piesakieties vēlreiz.")
+    row.anulets = True
+    return _issue(db, user)
+
+
+@router.post("/logout", status_code=204)
+def logout(body: RefreshIn, db: Session = Depends(get_db)):
+    row = _find_refresh(db, body.refresh_token)
+    if row is not None:
+        row.anulets = True
+        db.commit()
+
+
+@router.get("/me")
+def me(user: Lietotajs = Depends(current_user)):
+    return {"lietotaja_id": str(user.id), "epasts": user.epasts}
