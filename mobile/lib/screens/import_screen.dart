@@ -10,8 +10,8 @@ import '../widgets/form_parts.dart';
 import 'import_result_screen.dart';
 
 const platformHelp = {
-  'Mintos': 'Mintos tīmekļa vietnē: Konts → Konta izraksts → izvēlieties periodu → Lejupielādēt CSV.',
-  'Twino': 'Twino tīmekļa vietnē: Mans konts → Konta izraksts → izvēlieties periodu → Eksportēt CSV.',
+  'Mintos': 'Mintos tīmekļa vietnē atveriet „Konta izraksts”, izvēlieties periodu un lejupielādējiet CSV.',
+  'Twino': 'Twino tīmekļa vietnē atveriet „Konta izraksts”, izvēlieties periodu un eksportējiet CSV.',
 };
 
 /// S-04 platformas izvēle un S-05 faila izvēle. Augšupielāde neko nesaglabā — tikai pārbauda (API-05).

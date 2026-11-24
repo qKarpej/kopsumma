@@ -63,6 +63,7 @@ void main() {
     phone(t);
     await t.pumpWidget(KopsummaApp(api: FakeApi(), fontFamily: 'Roboto', initialRoute: Routes.login));
     await t.pumpAndSettle();
+    await t.enterText(find.byKey(const Key('email')), 'anna@inbox.lv');
     await t.enterText(find.byKey(const Key('password')), 'nepareiza');
     await t.tap(find.byKey(const Key('login')));
     await t.pumpAndSettle();
