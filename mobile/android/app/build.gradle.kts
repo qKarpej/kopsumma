@@ -6,7 +6,8 @@ plugins {
 
 android {
     namespace = "lv.kopsumma.kopsumma"
-    compileSdk = flutter.compileSdkVersion
+    // flutter_local_notifications un androidx bibliotēkas prasa compileSdk 37
+    compileSdk = maxOf(flutter.compileSdkVersion, 37)
     ndkVersion = flutter.ndkVersion
 
     compileOptions {
