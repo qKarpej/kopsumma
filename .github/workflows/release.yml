@@ -33,7 +33,7 @@ jobs:
           flutter build apk --release --dart-define=API_BASE_URL=http://10.0.2.2:8000 2>&1 | tee build.log
           cp build/app/outputs/flutter-apk/app-release.apk ../kopsumma-${GITHUB_REF_NAME//\//-}.apk
       - if: failure()
-        run: grep -nE "error|Error|ERROR|FAILURE|What went wrong|Missing class" -A3 build.log | head -60 | sed 's/^/::error::/' || true
+        run: grep -nE "Dependency|requires|error|Error|FAILURE|What went wrong|Missing class" -A2 build.log | head -60 | sed 's/^/::error::/' || true
       - name: Web
         run: |
           flutter build web --release --dart-define=API_BASE_URL=http://localhost:8000
